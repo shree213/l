@@ -4,34 +4,26 @@ public class ford
 {  
     private int D[];  
     private int num_ver;  
-    public static final int MAX_VALUE = 99999; // Increased for better representation of infinity.
-    
-    // Corrected Constructor: The initialization logic must be inside the constructor body {}.
+    public static final int MAX_VALUE = 99999; 
     public ford(int num_ver) 
     {  
         this.num_ver = num_ver;  
-        // D is an array to store shortest distances from the source.
         D = new int[num_ver + 1]; 
     }  
     
     public void BellmanFordEvaluation(int source, int A[][]) 
     { 
-        // 1. Initialization: Set all distances to infinity, except source=0
         for (int node = 1; node <= num_ver; node++)  
         {  
             D[node] = MAX_VALUE; 
         } 
         D[source] = 0; 
-
-        // 2. Relaxation: Repeat V-1 times
         for (int iteration = 1; iteration <= num_ver - 1; iteration++)  
         { 
-            // Iterate through all edges (sn, dn)
-            for (int sn = 1; sn <= num_ver; sn++) // sn = source node
+            for (int sn = 1; sn <= num_ver; sn++) 
             { 
-                for (int dn = 1; dn <= num_ver; dn++) // dn = destination node
+                for (int dn = 1; dn <= num_ver; dn++) 
                 { 
-                    // Check if there is an edge and if relaxation is possible
                     if (A[sn][dn] != MAX_VALUE)  
                     {  
                         if (D[sn] != MAX_VALUE && D[dn] > D[sn] + A[sn][dn])  
@@ -43,7 +35,6 @@ public class ford
             } 
         }  
 
-        // 3. Negative Cycle Check: Relax one more time (V-th iteration)
         boolean hasNegativeCycle = false;
         for (int sn = 1; sn <= num_ver; sn++) 
         { 
@@ -55,14 +46,12 @@ public class ford
                     {
                         System.out.println("\n*** The Graph contains a negative edge cycle! ***");
                         hasNegativeCycle = true;
-                        break; // Exit inner loops once a cycle is found
+                        break; 
                     }
                 }  
             }
             if (hasNegativeCycle) break; 
         }
-
-        // 4. Print Results if no negative cycle
         if (!hasNegativeCycle) {
             System.out.println("\n--- Shortest Path Distances (Bellman-Ford) ---");
             for (int vertex = 1; vertex <= num_ver; vertex++) 
@@ -84,8 +73,6 @@ public class ford
         
         System.out.print("Enter the number of vertices: ");  
         num_ver = scanner.nextInt();  
-        
-        // Adjacency matrix of size (num_ver + 1) x (num_ver + 1) to use 1-based indexing
         int A[][] = new int[num_ver + 1][num_ver + 1];  
         
         System.out.println("Enter the adjacency matrix (use 0 for no edge/infinity):");  
@@ -94,9 +81,6 @@ public class ford
             for (int dn = 1; dn <= num_ver; dn++)  
             { 
                 A[sn][dn] = scanner.nextInt();  
-                
-                // If input is 0, treat it as MAX_VALUE (infinity) for non-existent edges, 
-                // UNLESS it's the edge from a node to itself (sn == dn)
                 if (A[sn][dn] == 0 && sn != dn) 
                 { 
                     A[sn][dn] = MAX_VALUE;
@@ -112,4 +96,5 @@ public class ford
         
         scanner.close(); 
     } 
+
 }
